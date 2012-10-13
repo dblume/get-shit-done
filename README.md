@@ -7,7 +7,10 @@ After cloning this repository, put it in your $PATH and ensure it is executable.
 
 Execute it as root because it modifies your hosts file and restarts your network daemon. Every time you run it, it'll toggle between work mode and play mode.
 
-## To toggle between work and play mode, use the same command: 
+## To get-shit-done
+
+To toggle between work and play mode, run same command.
+
 `sudo get-shit-done`
 
 ### $siteList
