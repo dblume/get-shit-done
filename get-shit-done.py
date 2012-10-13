@@ -16,7 +16,11 @@ restartMacNetworkingCommand = ['ifconfig en0 down; ifconfig en0 up;']
 
 # Windows users may have to set up an exception for write access
 # to the hosts file in Windows Security Essentials.
-hostsFile = '/etc/hosts'
+if sys.platform == 'win32':
+    import win32api
+    hostsFile = os.path.join( win32api.GetSystemDirectory(), 'drivers', 'etc', 'hosts' )
+else:
+    hostsFile = '/etc/hosts'
 
 startToken = '## start-gsd'
 endToken = '## end-gsd'
@@ -48,7 +52,7 @@ def loadIniFile():
                     siteList.append(value)
 
 def rehash():
-    if sys.platform == 'cygwin':
+    if sys.platform == 'cygwin' or sys.platform == 'win32':
         return
     if sys.platform == 'darwin':
         subprocess.check_call(restartMacNetworkingCommand)
@@ -72,7 +76,9 @@ def play(startIndex, endIndex, lines):
     rehash()
 
 if __name__ == "__main__":
-    if sys.platform != 'cygwin' and getpass.getuser() != 'root':
+    if sys.platform != 'cygwin' and \
+       sys.platform != 'win32' and \
+       getpass.getuser() != 'root':
         exit_error('Please run script as root.')
 
     loadIniFile()
